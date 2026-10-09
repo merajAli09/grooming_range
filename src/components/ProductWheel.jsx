@@ -15,13 +15,14 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
 
   // Determine orbital dimensions based on screen width
   const getRadius = () => {
-    if (windowWidth < 480) return { rx: 110, rz: 45, translateY: -10, cardHeight: 260 };
-    if (windowWidth < 768) return { rx: 170, rz: 65, translateY: -15, cardHeight: 310 };
-    if (windowWidth < 1100) return { rx: 240, rz: 90, translateY: -20, cardHeight: 380 };
-    return { rx: 310, rz: 110, translateY: -20, cardHeight: 440 };
+    if (windowWidth < 360) return { rx: 50, rz: 30, translateY: -8, cardHeight: 230, cardWidth: 170 };
+    if (windowWidth < 480) return { rx: 68, rz: 35, translateY: -10, cardHeight: 260, cardWidth: 195 };
+    if (windowWidth < 768) return { rx: 115, rz: 50, translateY: -12, cardHeight: 300, cardWidth: 220 };
+    if (windowWidth < 1100) return { rx: 200, rz: 75, translateY: -16, cardHeight: 360, cardWidth: 270 };
+    return { rx: 280, rz: 95, translateY: -20, cardHeight: 420, cardWidth: 320 };
   };
 
-  const { rx, rz, translateY, cardHeight } = getRadius();
+  const { rx, rz, translateY, cardHeight, cardWidth } = getRadius();
 
   // Helper to handle Prev/Next
   const handlePrev = () => {
@@ -42,7 +43,7 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Touch Swipe Handlers
+  // Touch Swipe Handlers (preserving vertical scrolling via pan-y)
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -51,7 +52,7 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
     if (touchStartX.current === null) return;
     const touchEndX = e.changedTouches[0].clientX;
     const diff = touchStartX.current - touchEndX;
-    if (Math.abs(diff) > 40) {
+    if (Math.abs(diff) > 35) {
       if (diff > 0) handleNext();
       else handlePrev();
     }
@@ -66,14 +67,17 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
       style={{
         position: 'relative',
         width: '100%',
+        maxWidth: '100%',
         height: '100%',
-        minHeight: `${cardHeight + 100}px`,
+        minHeight: `${cardHeight + 85}px`,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        perspective: '1200px',
+        perspective: '1000px',
         userSelect: 'none',
+        touchAction: 'pan-y',
+        boxSizing: 'border-box',
       }}
     >
       {/* Subtle Orbital Background Platform Ring */}
@@ -82,12 +86,12 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
           position: 'absolute',
           top: '55%',
           left: '50%',
-          width: `${rx * 2 + 80}px`,
-          height: `${rz * 2 + 40}px`,
+          width: `${Math.min(rx * 2 + 50, windowWidth - 30)}px`,
+          height: `${rz * 2 + 30}px`,
           transform: 'translate(-50%, -50%) rotateX(72deg)',
           borderRadius: '50%',
           border: '1px solid rgba(32, 32, 30, 0.08)',
-          boxShadow: 'inset 0 0 40px rgba(200, 191, 178, 0.25), 0 20px 50px rgba(32, 32, 30, 0.04)',
+          boxShadow: 'inset 0 0 30px rgba(200, 191, 178, 0.25), 0 15px 40px rgba(32, 32, 30, 0.04)',
           pointerEvents: 'none',
           zIndex: 1,
         }}
@@ -99,8 +103,8 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
           position: 'absolute',
           top: '45%',
           left: '50%',
-          width: '280px',
-          height: '280px',
+          width: `${Math.min(260, windowWidth - 50)}px`,
+          height: `${Math.min(260, windowWidth - 50)}px`,
           transform: 'translate(-50%, -50%)',
           background: 'radial-gradient(circle, rgba(235, 230, 221, 0.8) 0%, rgba(245, 242, 235, 0) 70%)',
           pointerEvents: 'none',
@@ -113,7 +117,7 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: '850px',
+          maxWidth: '100%',
           height: `${cardHeight}px`,
           display: 'flex',
           alignItems: 'center',
@@ -142,9 +146,9 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
           
           const isFront = relIndex === 0;
           
-          const scale = 0.65 + depthFactor * 0.42; // Front ~1.07, Back ~0.65
-          const opacity = 0.5 + depthFactor * 0.5; // Front 1.0, Back 0.5
-          const blurVal = (1 - depthFactor) * 4; // Front 0px, Back 4px
+          const scale = 0.68 + depthFactor * 0.38; // Front ~1.06, Back ~0.68
+          const opacity = 0.55 + depthFactor * 0.45; // Front 1.0, Back 0.55
+          const blurVal = (1 - depthFactor) * 3; // Front 0px, Back 3px
           const zIndexVal = Math.round(depthFactor * 100);
 
           return (
@@ -162,7 +166,7 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
                 y: translateY * (1 - depthFactor),
                 scale: scale,
                 opacity: opacity,
-                filter: `blur(${blurVal}px) brightness(${78 + depthFactor * 22}%)`,
+                filter: `blur(${blurVal}px) brightness(${80 + depthFactor * 20}%)`,
               }}
               transition={{
                 type: 'spring',
@@ -172,7 +176,7 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
               }}
               style={{
                 position: 'absolute',
-                width: windowWidth < 600 ? '220px' : '320px',
+                width: `${cardWidth}px`,
                 height: `${cardHeight}px`,
                 cursor: isFront ? 'default' : 'pointer',
                 zIndex: zIndexVal,
@@ -181,8 +185,9 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
                 alignItems: 'center',
                 justifyContent: 'center',
                 transformStyle: 'preserve-3d',
+                boxSizing: 'border-box',
               }}
-              whileHover={!isFront ? { scale: scale * 1.05, opacity: opacity + 0.15 } : {}}
+              whileHover={!isFront ? { scale: scale * 1.04, opacity: opacity + 0.15 } : {}}
             >
               {/* Product Card Container */}
               <div 
@@ -195,14 +200,15 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '1.25rem',
+                  padding: windowWidth < 480 ? '0.85rem' : '1.25rem',
                   borderRadius: '16px',
                   background: isFront 
                     ? 'radial-gradient(ellipse at center, rgba(250, 249, 246, 0.95) 0%, rgba(245, 242, 235, 0.6) 100%)' 
                     : 'transparent',
                   border: isFront ? '1px solid rgba(32, 32, 30, 0.08)' : '1px solid transparent',
-                  boxShadow: isFront ? '0 25px 50px -12px rgba(32, 32, 30, 0.1)' : 'none',
+                  boxShadow: isFront ? '0 20px 40px -10px rgba(32, 32, 30, 0.09)' : 'none',
                   transition: 'all 0.4s ease',
+                  boxSizing: 'border-box',
                 }}
               >
                 {/* Product Image Frame */}
@@ -210,7 +216,7 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
                   style={{
                     position: 'relative',
                     width: '100%',
-                    height: '80%',
+                    height: '78%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -225,24 +231,27 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
                       width: '100%',
                       height: '100%',
                       objectFit: 'contain',
-                      filter: isFront ? 'drop-shadow(0 15px 25px rgba(32, 32, 30, 0.15))' : 'none',
+                      filter: isFront ? 'drop-shadow(0 12px 20px rgba(32, 32, 30, 0.14))' : 'none',
                       transition: 'all 0.5s ease',
                     }}
                   />
                 </div>
 
                 {/* Subtle Product Label Badge */}
-                <div style={{ marginTop: '0.75rem', textAlign: 'center' }}>
+                <div style={{ marginTop: '0.5rem', textAlign: 'center', width: '100%' }}>
                   <span 
                     style={{
                       fontFamily: 'var(--font-sans)',
-                      fontSize: isFront ? '0.75rem' : '0.68rem',
+                      fontSize: isFront ? (windowWidth < 480 ? '0.7rem' : '0.75rem') : '0.64rem',
                       fontWeight: 600,
-                      letterSpacing: '0.15em',
+                      letterSpacing: '0.12em',
                       textTransform: 'uppercase',
                       color: isFront ? 'var(--color-charcoal)' : 'var(--color-text-muted)',
                       display: 'block',
                       transition: 'all 0.3s ease',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                     }}
                   >
                     {product.name}
@@ -250,10 +259,10 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
                   <span 
                     style={{
                       fontFamily: 'var(--font-sans)',
-                      fontSize: '0.7rem',
+                      fontSize: '0.66rem',
                       color: 'var(--color-muted-olive)',
                       display: isFront ? 'block' : 'none',
-                      marginTop: '0.2rem',
+                      marginTop: '0.15rem',
                     }}
                   >
                     {product.size}
@@ -269,10 +278,10 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
       <div 
         style={{
           position: 'relative',
-          marginTop: '1.5rem',
+          marginTop: '1.25rem',
           display: 'flex',
           alignItems: 'center',
-          gap: '2rem',
+          gap: windowWidth < 480 ? '1.25rem' : '2rem',
           zIndex: 20,
         }}
       >
@@ -281,8 +290,8 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
           onClick={handlePrev}
           aria-label="Previous product"
           style={{
-            width: '46px',
-            height: '46px',
+            width: windowWidth < 480 ? '38px' : '46px',
+            height: windowWidth < 480 ? '38px' : '46px',
             borderRadius: '50%',
             border: '1px solid var(--color-border)',
             background: 'var(--color-off-white)',
@@ -292,6 +301,7 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
             justifyContent: 'center',
             transition: 'all 0.3s var(--ease-out-expo)',
             boxShadow: 'var(--shadow-sm)',
+            cursor: 'pointer',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = 'var(--color-charcoal)';
@@ -304,19 +314,19 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
             e.currentTarget.style.transform = 'translateX(0)';
           }}
         >
-          <ChevronLeft size={20} />
+          <ChevronLeft size={windowWidth < 480 ? 18 : 20} />
         </button>
 
         {/* Pagination Dots & Product Counter */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           {PRODUCTS.map((p, idx) => (
             <button
               key={p.id}
               onClick={() => setActiveIndex(idx)}
               aria-label={`Go to ${p.name}`}
               style={{
-                width: idx === activeIndex ? '28px' : '8px',
-                height: '8px',
+                width: idx === activeIndex ? (windowWidth < 480 ? '22px' : '28px') : '7px',
+                height: '7px',
                 borderRadius: '4px',
                 backgroundColor: idx === activeIndex ? 'var(--color-charcoal)' : 'var(--color-soft-taupe)',
                 transition: 'all 0.4s var(--ease-out-expo)',
@@ -331,8 +341,8 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
           onClick={handleNext}
           aria-label="Next product"
           style={{
-            width: '46px',
-            height: '46px',
+            width: windowWidth < 480 ? '38px' : '46px',
+            height: windowWidth < 480 ? '38px' : '46px',
             borderRadius: '50%',
             border: '1px solid var(--color-border)',
             background: 'var(--color-off-white)',
@@ -342,6 +352,7 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
             justifyContent: 'center',
             transition: 'all 0.3s var(--ease-out-expo)',
             boxShadow: 'var(--shadow-sm)',
+            cursor: 'pointer',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = 'var(--color-charcoal)';
@@ -354,7 +365,7 @@ export default function ProductWheel({ activeIndex, setActiveIndex, onExplore })
             e.currentTarget.style.transform = 'translateX(0)';
           }}
         >
-          <ChevronRight size={20} />
+          <ChevronRight size={windowWidth < 480 ? 18 : 20} />
         </button>
       </div>
 

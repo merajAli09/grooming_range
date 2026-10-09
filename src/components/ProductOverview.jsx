@@ -50,10 +50,13 @@ export default function ProductOverview({
 
         {/* 3-Product Grid */}
         <div
+          className="product-overview-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '2.5rem',
+            width: '100%',
+            boxSizing: 'border-box',
           }}
         >
           {PRODUCTS.map((product, idx) => {
@@ -64,6 +67,7 @@ export default function ProductOverview({
             return (
               <motion.div
                 key={product.id}
+                className="product-overview-card"
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 style={{
@@ -79,6 +83,8 @@ export default function ProductOverview({
                   padding: '2rem',
                   boxShadow: 'var(--shadow-sm)',
                   transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                  width: '100%',
+                  boxSizing: 'border-box',
                 }}
               >
                 {/* Category */}
@@ -248,6 +254,29 @@ export default function ProductOverview({
           })}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 1024px) {
+          .product-overview-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 2rem !important;
+          }
+        }
+        @media (max-width: 767px) {
+          #products {
+            padding-top: 4.5rem !important;
+            padding-bottom: 4.5rem !important;
+          }
+          .product-overview-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1.75rem !important;
+          }
+          .product-overview-card {
+            padding: 1.5rem 1.25rem !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

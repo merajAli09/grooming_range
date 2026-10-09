@@ -56,12 +56,13 @@ export default function BrandPhilosophy() {
           <h2 
             style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2.8rem, 5vw, 4.5rem)',
+              fontSize: 'clamp(2.1rem, 5.5vw, 4.5rem)',
               fontWeight: 400,
               letterSpacing: '-0.02em',
-              lineHeight: 1.1,
-              marginBottom: '2rem',
+              lineHeight: 1.12,
+              marginBottom: '1.75rem',
               color: 'var(--color-warm-ivory)',
+              wordBreak: 'break-word',
             }}
           >
             {BRAND.philosophyHeadline}
@@ -69,14 +70,14 @@ export default function BrandPhilosophy() {
 
           <p 
             style={{
-              fontSize: '1.2rem',
+              fontSize: 'clamp(0.95rem, 2.5vw, 1.2rem)',
               color: 'var(--color-soft-taupe)',
               lineHeight: 1.7,
               fontWeight: 300,
               maxWidth: '640px',
               marginLeft: 'auto',
               marginRight: 'auto',
-              marginBottom: '4rem',
+              marginBottom: '3.5rem',
             }}
           >
             {BRAND.philosophySubhead}
@@ -84,13 +85,16 @@ export default function BrandPhilosophy() {
 
           {/* Three Core Brand Pillars */}
           <div 
+            className="philosophy-pillars-grid"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '2.5rem',
               textAlign: 'left',
               borderTop: '1px solid rgba(245, 242, 235, 0.12)',
-              paddingTop: '3.5rem',
+              paddingTop: '3rem',
+              width: '100%',
+              boxSizing: 'border-box',
             }}
           >
             <div>
@@ -119,6 +123,21 @@ export default function BrandPhilosophy() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          #philosophy {
+            padding-top: 5rem !important;
+            padding-bottom: 5rem !important;
+          }
+          .philosophy-pillars-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 2rem !important;
+            padding-top: 2.25rem !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

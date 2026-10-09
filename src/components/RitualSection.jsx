@@ -38,16 +38,20 @@ export default function RitualSection({ onSelectStep }) {
 
         {/* 3 Step Sequence Grid */}
         <div 
+          className="ritual-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '2.5rem',
             position: 'relative',
+            width: '100%',
+            boxSizing: 'border-box',
           }}
         >
           {PRODUCTS.map((product, index) => (
             <motion.div
               key={product.id}
+              className="ritual-card"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -63,6 +67,8 @@ export default function RitualSection({ onSelectStep }) {
                 backgroundColor: 'var(--color-off-white)',
                 border: '1px solid var(--color-border-subtle)',
                 boxShadow: 'var(--shadow-sm)',
+                width: '100%',
+                boxSizing: 'border-box',
               }}
             >
               {/* Step Number Badge */}
@@ -89,6 +95,7 @@ export default function RitualSection({ onSelectStep }) {
 
               {/* Product Visual Anchor */}
               <div 
+                className="ritual-card-img-anchor"
                 style={{
                   width: '180px',
                   height: '220px',
@@ -115,12 +122,13 @@ export default function RitualSection({ onSelectStep }) {
               <span 
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: '0.75rem',
+                  fontSize: '0.72rem',
                   fontWeight: 700,
-                  letterSpacing: '0.25em',
+                  letterSpacing: '0.22em',
                   textTransform: 'uppercase',
                   color: 'var(--color-muted-olive)',
                   marginBottom: '0.35rem',
+                  display: 'block',
                 }}
               >
                 Step {product.ritualStep} — {product.ritualAction}
@@ -129,10 +137,11 @@ export default function RitualSection({ onSelectStep }) {
               <h3 
                 style={{
                   fontFamily: 'var(--font-serif)',
-                  fontSize: '1.5rem',
+                  fontSize: '1.45rem',
                   fontWeight: 500,
                   color: 'var(--color-charcoal)',
                   marginBottom: '0.75rem',
+                  lineHeight: 1.2,
                 }}
               >
                 {product.name}
@@ -144,6 +153,7 @@ export default function RitualSection({ onSelectStep }) {
                   color: 'var(--color-text-muted)',
                   lineHeight: 1.6,
                   marginBottom: '1.5rem',
+                  maxWidth: '100%',
                 }}
               >
                 {product.ritualInstruction}
@@ -155,8 +165,9 @@ export default function RitualSection({ onSelectStep }) {
                 className="btn-secondary"
                 style={{
                   marginTop: 'auto',
-                  padding: '0.6rem 1.25rem',
-                  fontSize: '0.7rem',
+                  padding: '0.65rem 1.4rem',
+                  fontSize: '0.72rem',
+                  maxWidth: '100%',
                 }}
               >
                 Explore Step {product.ritualStep}
@@ -165,6 +176,37 @@ export default function RitualSection({ onSelectStep }) {
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 1024px) and (min-width: 768px) {
+          .ritual-grid {
+            gap: 1.5rem !important;
+          }
+        }
+        @media (max-width: 767px) {
+          #ritual {
+            padding-top: 4.5rem !important;
+            padding-bottom: 4.5rem !important;
+          }
+          .ritual-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 2.75rem !important;
+            width: 100% !important;
+          }
+          .ritual-card {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 2.5rem 1.25rem 1.75rem !important;
+          }
+          .ritual-card-img-anchor {
+            width: 100% !important;
+            max-width: 170px !important;
+            height: 190px !important;
+            margin: 0.5rem auto 1.25rem auto !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

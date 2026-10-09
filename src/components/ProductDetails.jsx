@@ -47,19 +47,22 @@ export default function ProductDetails({
       <div className="container">
         {/* Product Tab Switcher */}
         <div
+          className="details-tab-switcher"
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             gap: '1rem',
-            marginBottom: '4rem',
+            marginBottom: '3.5rem',
             flexWrap: 'wrap',
+            width: '100%',
           }}
         >
           {PRODUCTS.map((p) => (
             <button
               key={p.id}
               onClick={() => setSelectedProductId(p.id)}
+              className="tab-switcher-btn"
               style={{
                 padding: '0.75rem 1.75rem',
                 borderRadius: '30px',
@@ -98,6 +101,8 @@ export default function ProductDetails({
             borderRadius: '20px',
             border: '1px solid var(--color-border)',
             boxShadow: 'var(--shadow-lg)',
+            width: '100%',
+            boxSizing: 'border-box',
           }}
           className="details-grid"
         >
@@ -114,6 +119,8 @@ export default function ProductDetails({
               borderRadius: '16px',
               padding: '2.5rem',
               border: '1px solid var(--color-border-subtle)',
+              width: '100%',
+              boxSizing: 'border-box',
             }}
             className="details-img-col"
           >
@@ -126,6 +133,7 @@ export default function ProductDetails({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.92 }}
                 transition={{ duration: 0.4 }}
+                className="details-img"
                 style={{
                   width: '100%',
                   maxHeight: '380px',
@@ -142,6 +150,8 @@ export default function ProductDetails({
               gridColumn: 'span 6',
               display: 'flex',
               flexDirection: 'column',
+              width: '100%',
+              boxSizing: 'border-box',
             }}
             className="details-info-col"
           >
@@ -168,13 +178,14 @@ export default function ProductDetails({
                 color: 'var(--color-charcoal)',
                 marginBottom: '1.25rem',
                 lineHeight: 1.15,
+                wordBreak: 'break-word',
               }}
             >
               {currentProduct.name}
             </h2>
 
             {/* ── Size Selector ── */}
-            <div style={{ marginBottom: '1.25rem' }}>
+            <div style={{ marginBottom: '1.25rem', width: '100%' }}>
               <span
                 style={{
                   fontSize: '0.72rem',
@@ -188,7 +199,10 @@ export default function ProductDetails({
               >
                 SIZE
               </span>
-              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+              <div 
+                className="details-size-row"
+                style={{ display: 'flex', gap: '0.6rem', width: '100%' }}
+              >
                 {currentProduct.variants.map((variant, vi) => {
                   const isSelected = vi === activeVariantIdx;
                   return (
@@ -197,6 +211,7 @@ export default function ProductDetails({
                       onClick={() => onSelectVariant(currentProduct.id, vi)}
                       aria-label={`Select ${variant.size} — ${variant.price}`}
                       aria-pressed={isSelected}
+                      className="details-size-btn"
                       style={{
                         padding: '0.5rem 1.1rem',
                         borderRadius: '4px',
@@ -232,6 +247,7 @@ export default function ProductDetails({
                 alignItems: 'baseline',
                 gap: '1rem',
                 marginBottom: '1.25rem',
+                flexWrap: 'wrap',
               }}
             >
               <AnimatePresence mode="wait">
@@ -263,6 +279,7 @@ export default function ProductDetails({
                 color: 'var(--color-text-muted)',
                 lineHeight: 1.65,
                 marginBottom: '2rem',
+                maxWidth: '100%',
               }}
             >
               {currentProduct.longDescription}
@@ -274,6 +291,7 @@ export default function ProductDetails({
                 marginBottom: '2.25rem',
                 borderTop: '1px solid var(--color-border)',
                 borderBottom: '1px solid var(--color-border)',
+                width: '100%',
               }}
             >
               <div
@@ -315,7 +333,7 @@ export default function ProductDetails({
                 ))}
               </div>
 
-              <div style={{ padding: '1rem 0', minHeight: '90px' }}>
+              <div style={{ padding: '1rem 0', minHeight: '90px', width: '100%' }}>
                 {activeTab === 'ingredients' ? (
                   <ul
                     style={{
@@ -323,6 +341,7 @@ export default function ProductDetails({
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '0.4rem',
+                      width: '100%',
                     }}
                   >
                     {currentProduct.ingredients.map((ing, i) => (
@@ -355,6 +374,7 @@ export default function ProductDetails({
                       fontSize: '0.88rem',
                       color: 'var(--color-text-muted)',
                       lineHeight: 1.6,
+                      maxWidth: '100%',
                     }}
                   >
                     {currentProduct.ritualInstruction}
@@ -366,8 +386,14 @@ export default function ProductDetails({
             {/* Add to Bag CTA */}
             <button
               onClick={handleAdd}
-              className="btn-primary"
-              style={{ width: '100%', padding: '1.1rem', fontSize: '0.85rem' }}
+              className="btn-primary details-add-to-bag-btn"
+              style={{ 
+                width: '100%', 
+                padding: '1.1rem', 
+                fontSize: '0.82rem',
+                letterSpacing: '0.12em',
+                boxSizing: 'border-box',
+              }}
             >
               {addedSuccess ? (
                 <>
@@ -389,12 +415,62 @@ export default function ProductDetails({
 
       <style>{`
         @media (max-width: 900px) {
-          .details-grid {
-            padding: 1.5rem !important;
+          #details {
+            padding-top: 4.5rem !important;
+            padding-bottom: 5rem !important;
           }
-          .details-img-col,
+          .details-tab-switcher {
+            gap: 0.5rem !important;
+            margin-bottom: 2rem !important;
+          }
+          .tab-switcher-btn {
+            padding: 0.55rem 1.1rem !important;
+            font-size: 0.72rem !important;
+            letter-spacing: 0.1em !important;
+          }
+          .details-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 2rem !important;
+            padding: 1.5rem 1.25rem !important;
+            border-radius: 16px !important;
+          }
+          .details-img-col {
+            min-height: auto !important;
+            padding: 1.5rem 1rem !important;
+            width: 100% !important;
+          }
+          .details-img {
+            max-height: 260px !important;
+          }
           .details-info-col {
-            grid-column: span 12 !important;
+            width: 100% !important;
+          }
+          .details-size-row {
+            gap: 0.4rem !important;
+          }
+          .details-size-btn {
+            flex: 1 1 0 !important;
+            min-width: 0 !important;
+            padding: 0.5rem 0.25rem !important;
+            font-size: 0.75rem !important;
+            text-align: center !important;
+            white-space: nowrap !important;
+          }
+          .details-add-to-bag-btn {
+            padding: 1rem 0.75rem !important;
+            font-size: 0.78rem !important;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .tab-switcher-btn {
+            padding: 0.45rem 0.75rem !important;
+            font-size: 0.68rem !important;
+          }
+          .details-add-to-bag-btn {
+            font-size: 0.74rem !important;
+            padding: 0.9rem 0.5rem !important;
           }
         }
       `}</style>

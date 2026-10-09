@@ -18,24 +18,27 @@ export default function Footer() {
         paddingBottom: '3rem',
       }}
     >
-      <div className="container">
+      <div className="container" style={{ boxSizing: 'border-box', width: '100%' }}>
         <div 
+          className="footer-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gridTemplateColumns: '2fr 1fr 1fr',
             gap: '3rem',
-            marginBottom: '4rem',
+            marginBottom: '3.5rem',
+            width: '100%',
+            boxSizing: 'border-box',
           }}
         >
           {/* Brand Column */}
-          <div style={{ gridColumn: 'span 2' }}>
+          <div className="footer-brand-col">
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', marginBottom: '1rem' }}>
               <span 
                 style={{
                   fontFamily: 'var(--font-serif)',
-                  fontSize: '1.6rem',
+                  fontSize: '1.5rem',
                   fontWeight: 600,
-                  letterSpacing: '0.18em',
+                  letterSpacing: '0.15em',
                 }}
               >
                 {BRAND.name}
@@ -43,16 +46,16 @@ export default function Footer() {
               <span 
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: '0.7rem',
+                  fontSize: '0.65rem',
                   fontWeight: 700,
-                  letterSpacing: '0.25em',
+                  letterSpacing: '0.22em',
                   color: 'var(--color-muted-olive)',
                 }}
               >
                 {BRAND.descriptor}
               </span>
             </div>
-            <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', maxWidth: '300px', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--color-text-muted)', maxWidth: '320px', lineHeight: 1.6 }}>
               {BRAND.tagline} Everyday essentials engineered for clarity and purpose.
             </p>
           </div>
@@ -101,6 +104,7 @@ export default function Footer() {
 
         {/* Bottom Copyright Bar */}
         <div 
+          className="footer-bottom-bar"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -110,13 +114,35 @@ export default function Footer() {
             fontSize: '0.75rem',
             color: 'var(--color-text-muted)',
             flexWrap: 'wrap',
-            gap: '1rem',
+            gap: '0.75rem',
+            width: '100%',
+            boxSizing: 'border-box',
           }}
         >
           <span>© {currentYear} {BRAND.name} {BRAND.descriptor}. All rights reserved.</span>
           <span>Temporary Brand Prototype</span>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          footer {
+            padding-top: 3.5rem !important;
+            padding-bottom: 2.5rem !important;
+          }
+          .footer-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 2.25rem !important;
+            margin-bottom: 2.5rem !important;
+          }
+          .footer-bottom-bar {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.5rem !important;
+          }
+        }
+      `}</style>
     </footer>
   );
 }

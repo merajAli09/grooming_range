@@ -24,11 +24,13 @@ export default function Navbar({ cartCount, onOpenCart }) {
 
   return (
     <header
+      className="site-header"
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
+        maxWidth: '100%',
         zIndex: 100,
         backgroundColor: HEADER_BG,
         borderBottom: scrolled
@@ -38,48 +40,57 @@ export default function Navbar({ cartCount, onOpenCart }) {
           ? '0 6px 24px rgba(37, 35, 31, 0.07)'
           : '0 2px 8px rgba(37, 35, 31, 0.04)',
         transition: 'box-shadow 0.35s ease, border-color 0.35s ease',
+        boxSizing: 'border-box',
       }}
     >
       <div
-        className="container"
+        className="container header-container"
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           height: scrolled ? '68px' : '82px',
           transition: 'height 0.35s ease',
+          boxSizing: 'border-box',
         }}
       >
         {/* ── Brand Wordmark ── */}
         <a
           href="#hero"
           onClick={(e) => { e.preventDefault(); scrollToSection('hero'); }}
+          className="header-brand"
           style={{
             display: 'flex',
             alignItems: 'baseline',
-            gap: '0.45rem',
+            gap: '0.4rem',
             textDecoration: 'none',
+            minWidth: 0,
+            flexShrink: 1,
           }}
         >
           <span
+            className="brand-name"
             style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: '1.4rem',
+              fontSize: '1.35rem',
               fontWeight: 600,
-              letterSpacing: '0.18em',
+              letterSpacing: '0.15em',
               color: HEADER_TEXT,
+              whiteSpace: 'nowrap',
             }}
           >
             {BRAND.name}
           </span>
           <span
+            className="brand-descriptor"
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: '0.64rem',
+              fontSize: '0.62rem',
               fontWeight: 700,
-              letterSpacing: '0.26em',
+              letterSpacing: '0.22em',
               color: '#737764',
               textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
             }}
           >
             {BRAND.descriptor}
@@ -103,7 +114,15 @@ export default function Navbar({ cartCount, onOpenCart }) {
         </nav>
 
         {/* ── Right actions ── */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+        <div 
+          className="header-actions"
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.85rem',
+            flexShrink: 0,
+          }}
+        >
           <button
             onClick={onOpenCart}
             aria-label="Open Shopping Bag"
@@ -112,7 +131,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              padding: '0.5rem',
+              padding: '0.45rem',
               color: HEADER_TEXT,
               transition: 'transform 0.2s ease',
               background: 'none',
@@ -122,7 +141,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
             onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.08)')}
             onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
           >
-            <ShoppingBag size={21} />
+            <ShoppingBag size={20} />
             {cartCount > 0 && (
               <span
                 style={{
@@ -153,14 +172,14 @@ export default function Navbar({ cartCount, onOpenCart }) {
             aria-label="Toggle navigation menu"
             style={{
               display: 'none',
-              padding: '0.5rem',
+              padding: '0.45rem',
               color: HEADER_TEXT,
               background: 'none',
               border: 'none',
               cursor: 'pointer',
             }}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={23} /> : <Menu size={23} />}
           </button>
         </div>
       </div>
@@ -168,12 +187,13 @@ export default function Navbar({ cartCount, onOpenCart }) {
       {/* ── Mobile overlay menu ── */}
       {mobileMenuOpen && (
         <div
+          className="mobile-nav-overlay"
           style={{
             position: 'fixed',
-            top: scrolled ? '68px' : '82px',
+            top: '64px',
             left: 0,
             width: '100%',
-            height: `calc(100vh - ${scrolled ? '68px' : '82px'})`,
+            height: 'calc(100vh - 64px)',
             backgroundColor: HEADER_BG,
             display: 'flex',
             flexDirection: 'column',
@@ -182,6 +202,7 @@ export default function Navbar({ cartCount, onOpenCart }) {
             gap: '2.25rem',
             zIndex: 90,
             borderTop: '1px solid rgba(37, 35, 31, 0.1)',
+            boxSizing: 'border-box',
           }}
         >
           {[
@@ -236,8 +257,39 @@ export default function Navbar({ cartCount, onOpenCart }) {
         .nav-link-beige:hover::after { width: 100%; }
 
         @media (max-width: 768px) {
-          .desktop-nav   { display: none !important; }
-          .mobile-toggle { display: block !important; }
+          .header-container {
+            height: 66px !important;
+          }
+          .desktop-nav {
+            display: none !important;
+          }
+          .mobile-toggle {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+          }
+          .brand-name {
+            font-size: 1.15rem !important;
+            letter-spacing: 0.12em !important;
+          }
+          .brand-descriptor {
+            font-size: 0.56rem !important;
+            letter-spacing: 0.18em !important;
+          }
+          .mobile-nav-overlay {
+            top: 66px !important;
+            height: calc(100vh - 66px) !important;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .brand-name {
+            font-size: 1.05rem !important;
+            letter-spacing: 0.1em !important;
+          }
+          .brand-descriptor {
+            display: none !important;
+          }
         }
       `}</style>
     </header>

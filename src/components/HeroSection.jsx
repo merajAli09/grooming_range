@@ -46,14 +46,16 @@ export default function HeroSection({
         }}
       />
 
-      <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-        {/* Desktop Editorial Grid: Left Info + Right Wheel */}
+      <div className="container" style={{ position: 'relative', zIndex: 10, boxSizing: 'border-box', width: '100%' }}>
+        {/* Editorial Layout: Left Info + Right Wheel */}
         <div
+          className="hero-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(12, 1fr)',
-            gap: '2rem',
+            gap: '2.5rem',
             alignItems: 'center',
+            width: '100%',
           }}
         >
           {/* Left Column */}
@@ -63,6 +65,8 @@ export default function HeroSection({
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
+              width: '100%',
+              boxSizing: 'border-box',
             }}
             className="hero-text-col"
           >
@@ -72,7 +76,8 @@ export default function HeroSection({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '1.25rem',
+                marginBottom: '1rem',
+                width: '100%',
               }}
             >
               <span className="eyebrow">{BRAND.eyebrow}</span>
@@ -97,10 +102,10 @@ export default function HeroSection({
             {/* Supporting Copy */}
             <p
               style={{
-                fontSize: '1.05rem',
+                fontSize: '1rem',
                 color: 'var(--color-text-muted)',
-                marginBottom: '2.5rem',
-                maxWidth: '420px',
+                marginBottom: '2rem',
+                maxWidth: '440px',
                 lineHeight: 1.6,
               }}
             >
@@ -109,6 +114,7 @@ export default function HeroSection({
 
             {/* Active Product Info Card */}
             <div
+              className="hero-info-card"
               style={{
                 position: 'relative',
                 padding: '1.75rem',
@@ -117,6 +123,8 @@ export default function HeroSection({
                 backdropFilter: 'blur(10px)',
                 border: '1px solid var(--color-border)',
                 boxShadow: 'var(--shadow-md)',
+                width: '100%',
+                boxSizing: 'border-box',
               }}
             >
               <AnimatePresence mode="wait">
@@ -126,6 +134,7 @@ export default function HeroSection({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.35, ease: 'easeOut' }}
+                  style={{ width: '100%' }}
                 >
                   {/* Category & Size */}
                   <div
@@ -134,6 +143,7 @@ export default function HeroSection({
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       marginBottom: '0.5rem',
+                      width: '100%',
                     }}
                   >
                     <span
@@ -162,10 +172,11 @@ export default function HeroSection({
                   <h2
                     style={{
                       fontFamily: 'var(--font-serif)',
-                      fontSize: '1.85rem',
+                      fontSize: '1.75rem',
                       fontWeight: 500,
                       marginBottom: '0.5rem',
                       color: 'var(--color-charcoal)',
+                      lineHeight: 1.2,
                     }}
                   >
                     {activeProduct.name}
@@ -174,7 +185,7 @@ export default function HeroSection({
                   {/* Short Description */}
                   <p
                     style={{
-                      fontSize: '0.92rem',
+                      fontSize: '0.9rem',
                       color: 'var(--color-text-muted)',
                       marginBottom: '1.5rem',
                       lineHeight: 1.55,
@@ -189,12 +200,14 @@ export default function HeroSection({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
+                      gap: '1rem',
+                      flexWrap: 'wrap',
                     }}
                   >
                     <span
                       style={{
                         fontFamily: 'var(--font-sans)',
-                        fontSize: '1.2rem',
+                        fontSize: '1.25rem',
                         fontWeight: 700,
                         color: 'var(--color-charcoal)',
                       }}
@@ -205,7 +218,11 @@ export default function HeroSection({
                     <button
                       className="btn-primary"
                       onClick={() => onExploreProduct(activeProduct)}
-                      style={{ padding: '0.75rem 1.5rem', fontSize: '0.75rem' }}
+                      style={{ 
+                        padding: '0.75rem 1.4rem', 
+                        fontSize: '0.75rem',
+                        letterSpacing: '0.12em',
+                      }}
                     >
                       <span>{activeProduct.cta}</span>
                       <ArrowRight size={15} />
@@ -224,6 +241,8 @@ export default function HeroSection({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              width: '100%',
+              boxSizing: 'border-box',
             }}
             className="hero-wheel-col"
           >
@@ -238,14 +257,34 @@ export default function HeroSection({
 
       <style>{`
         @media (max-width: 1024px) {
+          .hero-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 2.5rem !important;
+            width: 100% !important;
+          }
           .hero-text-col {
-            grid-column: span 12 !important;
-            margin-bottom: 2.5rem;
-            text-align: center;
-            align-items: center;
+            width: 100% !important;
+            max-width: 580px !important;
+            margin: 0 auto !important;
+            text-align: center !important;
+            align-items: center !important;
           }
           .hero-wheel-col {
-            grid-column: span 12 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          #hero {
+            padding-top: 5rem !important;
+            padding-bottom: 2.5rem !important;
+            min-height: auto !important;
+          }
+          .hero-info-card {
+            padding: 1.25rem !important;
+            text-align: left !important;
           }
         }
       `}</style>

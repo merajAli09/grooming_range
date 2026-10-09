@@ -48,10 +48,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
             onClick={handleCloseAll}
             style={{
               position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '100vh',
+              inset: 0,
               backgroundColor: 'rgba(32, 32, 30, 0.4)',
               backdropFilter: 'blur(4px)',
               zIndex: 200,
@@ -69,13 +66,14 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
               top: 0,
               right: 0,
               width: '100%',
-              maxWidth: '460px',
+              maxWidth: 'min(460px, 100vw)',
               height: '100vh',
               backgroundColor: 'var(--color-warm-ivory)',
               boxShadow: 'var(--shadow-lg)',
               zIndex: 210,
               display: 'flex',
               flexDirection: 'column',
+              boxSizing: 'border-box',
             }}
           >
             {/* Drawer Header */}
@@ -84,8 +82,9 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                padding: '1.75rem 2rem',
+                padding: '1.5rem 1.5rem',
                 borderBottom: '1px solid var(--color-border)',
+                boxSizing: 'border-box',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
